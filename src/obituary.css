@@ -1,0 +1,36 @@
+
+  
+  .obituary {
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    translate: 50px;
+    size: auto;
+    margin: auto;
+  }
+  
+  .obituary-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  
+
+  }
+  
+  .obituary-name {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    text-align: center;
+    color: rgb(31, 31, 31);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+
+  }
+  
+  .obituary-dates {
+    font-size: 0.7rem;
+    text-align: center;
+    color: rgb(31, 31, 31);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+
+  }
+  
