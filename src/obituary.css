@@ -1,36 +1,25 @@
+.obituary-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* columns will be auto-sized with a minimum of 250px and maximum of 1fr */
+  grid-gap: 20px;
+  grid-auto-flow: dense;
+}
 
-  
-  .obituary {
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    translate: 50px;
-    size: auto;
-    margin: auto;
-  }
-  
-  .obituary-image {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  
+.obituary {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: auto;
+  translate: 50px;
+  size: auto;
+  margin: auto;
+}
 
-  }
-  
-  .obituary-name {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-    text-align: center;
-    color: rgb(31, 31, 31);
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 
-  }
-  
-  .obituary-dates {
-    font-size: 0.7rem;
-    text-align: center;
-    color: rgb(31, 31, 31);
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+.obituary img {
+  width: 100%;
+}
 
-  }
-  
+.obituary h2 {
+  margin-top: 10px;
+  margin-bottom: 1.5px;
+}

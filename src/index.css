@@ -135,40 +135,49 @@ header h1 {
   border: 0.5px solid #ccc;
 }
 
-#birth-date-input, #death-date-input {
+/* #birthDate, #deathDate {
   border: none;
   background-color: transparent;
   font-family: inherit;
 
-}
+} */
 
 
 #dates-wrapper {
   display: flex;
-  justify-content: space-evenly;
-  width: 80%;
+  justify-content: space-evenly;  
+  width: 60%;
+  background-color: transparent;
 }
 
 #dates-wrapper label {
-  margin-right: -140px;
-  display: inline-block;
-  width: 50px;
+  /* margin-right: -140px; */
+  /* display: inline-block; */
+  width: 110px;
   text-align: right;
+}
+
+#dates-wrapper input {
+  background-color: transparent;
+  border: none;
 }
 
 
 
 
 /* submit button */
-#submit-button button{
+#submit-button {
   display: inline-block;
+  font-size: large;
   background-color: hsl(169, 83%, 43%);
   color: hsl(169, 83%, 43%);
   border: 1px solid hsl(169, 83%, 43%);
-  padding: 10px 20px;
+  padding: 20px 20px;
   cursor: pointer;
   color: white;
-  margin-top: 90px;
+  margin-top: 60px;
+  width: 60%;
+  border-radius: 10px;
 }
 
 
