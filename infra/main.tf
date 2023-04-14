@@ -28,6 +28,7 @@ locals {
 # created iam role lambda
 resource "aws_iam_role" "lambda" {
   name = "iam-for-lambda-${local.get_obituaries_30086612_function_name}"
+<<<<<<< HEAD
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -41,18 +42,43 @@ resource "aws_iam_role" "lambda" {
       }
     ]
   })
+=======
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
 }
 
 # create archive file from main.py
 data "archive_file" "lambda_create_obituary_30086612" {
   type        = "zip"
+<<<<<<< HEAD
   source_dir = "functions/create-obituary-30086612"  ####***PROF CHANGED THIS TO source_dir = "../functions/create-obituary-30086612"#### then ranexec terraform apply command credentail one this showed the request toolbelt librarires in dynamodb inline
+=======
+  source_dir = "../functions/create-obituary"  ####***PROF CHANGED THIS TO source_dir = "../functions/create-obituary-30086612"#### then ranexec terraform apply command credentail one this showed the request toolbelt librarires in dynamodb inline
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
   output_path = local.create_obituary_30086612_artifact_name
 }
 
 data "archive_file" "lambda_get_obituaries_30086612" {
   type        = "zip"
+<<<<<<< HEAD
   source_file = "functions/get-obituaries-30086612/main.py"
+=======
+  source_file = "../functions/get-obituaries/main.py"
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
   output_path = local.get_obituaries_30086612_artifact_name
 }
 
@@ -80,7 +106,11 @@ resource "aws_lambda_function_url" "create_obituary" {
     allow_credentials = true
     allow_origins     = ["*"]
     allow_methods     = ["POST"]
+<<<<<<< HEAD
     allow_headers     = ["*"]
+=======
+    allow_headers     = ["Content-Type"]
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
     expose_headers    = ["keep-alive", "date"]
   }
 }
@@ -114,7 +144,11 @@ resource "aws_lambda_function" "lambda_create_obituary_30086612" {
   function_name    = local.create_obituary_30086612_function_name
   handler          = local.create_obituary_30086612_handler_name
   filename         = local.create_obituary_30086612_artifact_name
+<<<<<<< HEAD
   source_code_hash = data.archive_file.lambda_create_obituary_30086612.output_base64sha256
+=======
+  source_code_hash = "50c333e444458be2fd31c96df437c5ee3e40b6e2b4bb35f2d0c3b482cbbbd8b9" # is this right****
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
 
   # see all available runtimes here: https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime
   runtime = "python3.9"
@@ -131,7 +165,11 @@ resource "aws_lambda_function" "lambda_create_obituary_30086612" {
 # create a policy for publishing logs to CloudWatch
 # see the docs: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy
 resource "aws_iam_policy" "logs" {
+<<<<<<< HEAD
   name        = "lambda-logging-${local.get_obituaries_30086612_function_name}"
+=======
+  name        = "lambda-logging-${local.create_obituary_30086612_function_name}"
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
   description = "IAM policy for logging from a lambda"
 
   policy = <<EOF
@@ -148,7 +186,11 @@ resource "aws_iam_policy" "logs" {
         "dynamodb:DeleteItem"
       ],
       "Resource": ["arn:aws:logs:::*",
+<<<<<<< HEAD
 "${aws_dynamodb_table.Obituaries_table_test.arn}"],
+=======
+"${aws_dynamodb_table.Obituaries-30122680.arn}"],
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
       "Effect": "Allow"
     }
   ]
@@ -169,8 +211,13 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 
 
 # read the docs: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table
+<<<<<<< HEAD
 resource "aws_dynamodb_table" "Obituaries_table_test" {
   name         = "Obituaries_table_test"
+=======
+resource "aws_dynamodb_table" "Obituaries-30122680" {
+  name         = "Obituaries-30122680"
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
   billing_mode = "PROVISIONED"
 
   # up to 8KB read per second (eventually consistent)
@@ -181,7 +228,12 @@ resource "aws_dynamodb_table" "Obituaries_table_test" {
 
   # we only need a name to find an item in the table; therefore, we
   # don't need a range key here
+<<<<<<< HEAD
   hash_key = "id"   #diff for each obituray 
+=======
+  range_key = "id"   #diff for each obituray 
+  hash_key =  "name"
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
 
   # the hash_key data type is string
   attribute {
@@ -189,8 +241,16 @@ resource "aws_dynamodb_table" "Obituaries_table_test" {
     type = "S"
   }
 
+<<<<<<< HEAD
 
 
+=======
+  attribute {
+    name = "name"
+    type = "S"
+  }
+>>>>>>> 21fd22e02b165a619c790354dc0698689f999cf1
 }
 
 # step functions (if you're going for the bonus marks)
+
