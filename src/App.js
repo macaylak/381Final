@@ -3,8 +3,11 @@ import { Outlet, useNavigate, Link } from "react-router-dom";
 import './index.css';
 import Obituary from './Obituary';
 import { v4 as uuidv4 } from "uuid";
+import DateTime from "react-datetime";
+
 
 function App() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showBlueRectangle, setShowBlueRectangle] = useState(false);
   const [obituaries, setObituaries] = useState([]);
   const [newObituary, setNewObituary] = useState(null);
@@ -15,11 +18,10 @@ function App() {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
-  // useEffect(() => {
-  //   localStorage.setItem('obituaries', JSON.stringify(obituaries));
-  // }, [obituaries]);
-
-
+  useEffect(() => {
+    localStorage.setItem('obituaries', JSON.stringify(obituaries));
+  }, [obituaries, isSubmitting]);
+  
   const handleNewObituaryClick = () => {
     setShowBlueRectangle(true);
     resetFormFields();
@@ -31,22 +33,35 @@ function App() {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
   
-    const data = new FormData();
-    data.append('file', file);
+    const formData = new FormData();
+    formData.append('file', file);
   
     const id = uuidv4();
     const newObituaryData = { id, name, birthDate, deathDate, image: imageUrl };
-
-    const res = await fetch("https://hhw3gmy5a7gdj2xqjlsaxaefh40qioms.lambda-url.ca-central-1.on.aws/",
-    {
+    const data = { ...newObituaryData, ...Object.fromEntries(formData.entries()) };
+  
+    const res = await fetch("https://hhw3gmy5a7gdj2xqjlsaxaefh40qioms.lambda-url.ca-central-1.on.aws/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newObituaryData)
-    }
-  );
+      body: JSON.stringify(data),
+    });
+
+    setIsSubmitting(false);
+  
+
+  // // call store_files lambda function
+  // const cloud = await fetch("https://eqq5a2s4mu2muc52zrqp6ht4iy0pcuyj.lambda-url.ca-central-1.on.aws/",
+  // {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({image, file})
+  // });
 
     setNewObituary(newObituaryData);
     setObituaries([...obituaries, { ...newObituaryData, isNew: true }]);
@@ -142,21 +157,27 @@ function App() {
                 <div id="dates-wrapper">
                   <label htmlFor="birthDate"><i>Born:</i></label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     required
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                   />
                   <label htmlFor="deathDate"><i>Died:</i></label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     required
+                    inputProps={{ placeholder: "yyyy-mm-dd, --:-- --" }}
                     value={deathDate}
                     onChange={(e) => setDeathDate(e.target.value)}
                   />
                 </div>
-                <button type="submit" id="submit-button">Write Obituary
-              </button>
+                <button
+                  id="submit-button"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Loading..." : "Write Obituary"}
+                </button>
             </form>
           </div>
         </div>

@@ -35,7 +35,6 @@ header h1 {
   cursor: pointer;
 }
 
-
 #new-obituary-button:hover {
   background-color: #ccc;
 }
@@ -51,10 +50,22 @@ header h1 {
   transform: translateX(-55px);
   margin-top: 30px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-gap: 10px;
   padding: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  #body {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns when screen width is 1200px or less */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #body {
+    grid-template-columns: repeat(1, 1fr); /* 1 column when screen width is 600px or less */
+  }
 }
 
 /* adjust body h1 to be centered in the grid*/
@@ -123,7 +134,6 @@ header h1 {
 #image-wrapper {
   display: flex;
   justify-content: space-evenly;
-  width: 60%;
   margin-bottom: 50px;
 }
 
@@ -141,6 +151,7 @@ header h1 {
   font-family: inherit;
 
 } */
+
 
 
 #dates-wrapper {
@@ -162,7 +173,9 @@ header h1 {
   border: none;
 }
 
-
+h2 {
+  color: black;
+}
 
 
 /* submit button */
@@ -181,13 +194,6 @@ header h1 {
 }
 
 
-#submit-button button:hover {
-  background-color: grey;
-  color: white;
-  border-color: grey;
-}
-
-
 #close-blue-rectangle-button {
   position: absolute;
   top: 10px;
@@ -201,5 +207,21 @@ header h1 {
 }
 
 #close-blue-rectangle-button:hover {
+  background-color: #ccc;
+}
+
+#message {
+  padding: 10px;
+  color: black;
+  font-family: cursive;
+}
+
+.play-button {
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+}
+
+.play-button:hover {
   background-color: #ccc;
 }
