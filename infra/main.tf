@@ -8,8 +8,6 @@ terraform {
 }
 
 provider "aws" {
-  access_key = "AKIATKMP4LXVEAJ5K3ET"
-  secret_key = "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"
   region = "ca-central-1"
 }
 
@@ -117,13 +115,9 @@ resource "aws_iam_policy" "logs_get" {
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
         "logs:PutLogEvents",
-        "dynamodb:Query",
-        "dynamodb:GetItem",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath",
-        "polly:SynthesizeSpeech"
+        "dynamodb:Scan"
       ],
-      "Resource": ["arn:aws:logs:*:*:*", "${aws_dynamodb_table.Obituary-30086612.arn}", "*", "*"],
+      "Resource": ["arn:aws:logs:*:*:*", "${aws_dynamodb_table.Obituary-30086612.arn}"],
       "Effect": "Allow"
     }
   ]
@@ -146,7 +140,7 @@ resource "aws_iam_policy" "logs_create" {
         "logs:CreateLogStream",
         "logs:PutLogEvents",
         "dynamodb:PutItem",
-        "ssm:GetParameter",
+        "ssm:GetParametersByPath",
         "polly:SynthesizeSpeech"
       ],
       "Resource": ["arn:aws:logs:*:*:*", "${aws_dynamodb_table.Obituary-30086612.arn}", "*", "*"],

@@ -7,29 +7,34 @@ import requests
 from requests_toolbelt.multipart import decoder
 import os
 
-os.environ['CHATGPT_KEY'] = "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"
-os.environ['CLOUDINARY_KEY'] = "HcnmGfBKXPeX0d4KYm2_eTmKzgs"
-
 
 client = boto3.client("polly")
 
 dynamodb_resource = boto3.resource("dynamodb")
 table = dynamodb_resource.Table("Obituary-30086612")
 
-# def get_parameter(parameter_name):
-#     ssm = boto3.client('ssm')
-#     response = ssm.get_parameter(
-#         Names= [
-#             parameter_name,
-#         ],
-#         WithDecryption=True
-#     )
-#     for param in response['Parameters']:
-#         return param['Value']
+ssm_client = boto3.client("ssm")
+response = ssm_client.get_parameters_by_path(
+    Path='/the-last-show/',
+    Recursive=True,
+    WithDecryption=True,
+)
+
+keys = {item['Name']: item['Value'] for item in response['Parameters']}
+"""
+{
+    "/the-last-show/cloudinary" : "the value",
+    "/the-last-show/cloudinary-api" : "the value",
+    "/the-last-show/chat" : "the value",
+}
+"""
+
+def get_parameter(parameter_name):
+    return keys.get(parameter_name, None)
     
 
 def gpt_response(prompt):
-    GPT_key = os.getenv("CHATGPT_KEY")
+    GPT_key = get_parameter("/the-last-show/chat-gpt-key") 
     url = "https://api.openai.com/v1/completions"
     headers = {
         "Content-Type": "application/json",
@@ -38,7 +43,7 @@ def gpt_response(prompt):
     body = {
         "model": "text-davinci-003",
         "prompt": prompt,
-        "max_tokens": 100,
+        "max_tokens": 600,
         "temperature": 0.2
     }
     res = requests.post(url, headers=headers, json=body)
@@ -47,21 +52,23 @@ def gpt_response(prompt):
 
 
 def upload_to_cloudinary(filename, resource_type):
-    Cloudinary_key = os.getenv("CLOUDINARY_KEY")
-    api_key = "714991328881576"
+    cloudinary_api_secret = get_parameter("/the-last-show/cloudinary-api-secret")
+    cloudinary_api_key = get_parameter("/the-last-show/cloudinary-api-key")
+    print(cloudinary_api_secret, cloudinary_api_key)
     cloud_name = "dxvulzhvt"
 
     body = {
-        "api_key": api_key,
+        "api_key": cloudinary_api_key,
     }
 
     files = {
         "file": open(filename, "rb")
     }
 
-    body["signature"] = create_signature(body, Cloudinary_key)
+    body["signature"] = create_signature(body, cloudinary_api_secret)
     url = f"https://api.cloudinary.com/v1_1/{cloud_name}/{resource_type}/upload"
     res = requests.post(url, files=files, data=body)
+    print(res.json())
     return res.json()
 
 def create_signature(body, secret_key):
