@@ -69,8 +69,7 @@ const Overlay = ({onClose, onObituarySubmit }) => {
                 <h1>X</h1>
             </button>
             <h1>Create a New Obituary</h1>
-            <img src="https://res.cloudinary.com/dfuasp6oi/image/upload/v1680734537/Divider_bxzief.png" alt="Divider" style={{width: "70%", display: "block", margin: "auto"}}/>
-            <form onSubmit = {(e) => submitForm(e)}>
+                     <form onSubmit = {(e) => submitForm(e)}>
                 <label htmlFor="image-input" id="select-image-label">
                     Select an image for the deceased <mark style={{backgroundColor:"#d3d3d3"}}>{imageName && `(${imageName})`}</mark>
                 </label>
