@@ -46,11 +46,11 @@ const Overlay = ({onClose, onObituarySubmit }) => {
       const obituary = {
         id: result["id"],
         name: result["name"],
-        birthDate: result["born_year"],
-        deathDate: result["died_year"],
-        image: result["img_resp"],
-        mp3: result["polly_resp"],
-        description: result["chatgpt"],
+        "born_year": result["born_year"],
+        "died_year": result["died_year"],
+        "img_resp": result["img_resp"],
+        "polly_resp": result["polly_resp"],
+        "chatgpt": result["chatgpt"],
       };
       onObituarySubmit(obituary);
       onClose();

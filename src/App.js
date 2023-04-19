@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Overlay from "./Overlay";
 import FormattedDate from "./FormattedDate.js"
 
@@ -24,6 +24,18 @@ function App() {
     setShowOverlay(false);
   };
 
+  // once the component is rendered
+  useEffect(()=> {
+    // this will run once the component is rendered and not anymore
+    const asyncEffect = async () => {
+      const promise = await fetch("https://3vfkgsmxhfok7zo7gjloi5egsa0orfkv.lambda-url.ca-central-1.on.aws/");
+
+      // turn the result into json
+      const res = await promise.json();
+      setObituaries(res)
+    }
+    asyncEffect();
+  }, [])
 
 
 
@@ -54,12 +66,12 @@ function App() {
           <div className="obituary-grid">
             {obituaries.map((obituary) => (
               <div id="obituary-container" key={obituary.id}>
-                <img src={obituary.image} alt="profile" style={{ maxWidth: "100%" }} /> <br/>
+                <img src={obituary["img_resp"]} alt="profile" style={{ maxWidth: "100%" }} /> <br/>
                 <p><b>{obituary.name}</b></p>
-                <small><FormattedDate label="Born" date={obituary.birthDate} /> - <FormattedDate label="Died" date={obituary.deathDate} /></small>
-                <br/><p>{obituary.description}</p><br/>
+                <small><FormattedDate label="Born" date={obituary["born_year"]} /> - <FormattedDate label="Died" date={obituary["died_year"]} /></small>
+                <br/><p>{obituary["chatgpt"]}</p><br/>
                 <audio controls >
-                  <source src={obituary.mp3} type="audio/mp3" />
+                  <source src={obituary["polly_resp"]} type="audio/mp3" />
                 </audio>
               </div>
             ))}
