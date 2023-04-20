@@ -8,7 +8,7 @@ const Overlay = ({onClose, onObituarySubmit }) => {
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [deathDate, setDeathDate] = useState(currentDate());
+  const [deathDate, setDeathDate] = useState("");
   const [loading, setLoading] = useState(false);
 
 
@@ -34,7 +34,7 @@ const Overlay = ({onClose, onObituarySubmit }) => {
 
     try {
       const promise = await fetch(
-        "https://qerzuxxuauhot6ojf677s6vgoy0jhalz.lambda-url.ca-central-1.on.aws/",
+        "https://y7hm73yzfnppotowqxjp4yvs540yfeiq.lambda-url.ca-central-1.on.aws/",
         {
           method: "POST",
           body: data,
@@ -65,13 +65,14 @@ const Overlay = ({onClose, onObituarySubmit }) => {
   return (
     <div id="overlay">
         <div id="overlay-content">
-            <button id="overlay-close" style={{padding:"10px 20px",fontSize:"1.2em",color:"#333"}} onClick={onClose}>
+            <button id="close-overlay-content-button" onClick={onClose}>
                 <h1>X</h1>
             </button>
             <h1>Create a New Obituary</h1>
+            <img id="obituary-image" src="line.png" alt="obituary" />
                      <form onSubmit = {(e) => submitForm(e)}>
                 <label htmlFor="image-input" id="select-image-label">
-                    Select an image for the deceased <mark style={{backgroundColor:"#d3d3d3"}}>{imageName && `(${imageName})`}</mark>
+                    Select an image for the deceased <mark style={{backgroundColor:"pink"} }>{imageName && `(${imageName})`}</mark>
                 </label>
                 <input
                     type="file"
@@ -81,6 +82,7 @@ const Overlay = ({onClose, onObituarySubmit }) => {
                     onChange={handleImageChange}
                     required
                 />
+
                 <input
                     type="text"
                     id="input-name"
@@ -107,7 +109,7 @@ const Overlay = ({onClose, onObituarySubmit }) => {
                         required
                     />
                 </div>
-                <button id="write-obituary-button" type="submit">
+                <button id="submit-button" type="submit">
                 {loading ? "Please wait ..." : "Write Obituary"}
                 </button>
             </form>
@@ -118,5 +120,3 @@ const Overlay = ({onClose, onObituarySubmit }) => {
 
 
 export default Overlay;
-
-
