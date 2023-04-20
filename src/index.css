@@ -38,7 +38,7 @@ header h1 {
   font-size: 1.5rem;
   color: grey;
   font-weight: bold;
-  width: 103%;
+  width: 95%;
   text-align: center;
 }
 
@@ -276,4 +276,10 @@ h2 {
   color: rgb(93, 93, 93);
   padding: 10px 0;
   font-family: Arial, Narrow, sans-serif;
+}
+
+.play-button {
+  color: palevioletred;
+  background-color: pink;
+  border: 1px solid palevioletred;
 }

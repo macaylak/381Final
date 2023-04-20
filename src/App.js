@@ -9,6 +9,16 @@ function App() {
   const [showMessage, setShowMessage] = useState(false);
   const [selectedObituaries, setSelectedObituaries] = useState([]);
 
+// play/pause audio
+const handlePlayPause = (id) => {
+  const audio = document.getElementById(`audio-${id}`);
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+};
+
   const handleClick = () => {
     setShowOverlay(true);
   };
@@ -29,18 +39,18 @@ function App() {
     };
     asyncEffect();
   }, []);
-
-  const handleObituaryClick = (id) => {
-    setSelectedObituary(id);
-    setSelectedObituaries([id]);
-    setShowMessage(true);
-    // close on second click
-    if (selectedObituary === id) {
+  
+  const handleObituaryClick = (id, e) => {
+    if (selectedObituary === id && !e.target.classList.contains('play-button')) {
       setSelectedObituary(null);
       setShowMessage(false);
+    } else {
+      setSelectedObituary(id);
+      setSelectedObituaries([id]);
+      setShowMessage(true);
     }
   };
-
+  
   // show newest obituary message when it is created
   useEffect(() => {
     if (obituaries.length > 0) {
@@ -91,14 +101,14 @@ function App() {
                     <p>{obituary["chatgpt"]}</p>
                     <br />
                     <div className="audio-player">
-                      <audio controls className="audio-element">
+                      <audio className="audio-element" id={`audio-${obituary.id}`}>
                         <source src={obituary["polly_resp"]} type="audio/mp3" />
                       </audio>
-                      <div className="play-pause-button"></div>
+                      <button className="play-button" onClick={() => handlePlayPause(obituary.id)}>Play/Pause</button>
                     </div>
-
                   </div>
                 )}
+
               </div>
             ))}
           </div>
