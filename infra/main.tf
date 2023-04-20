@@ -13,18 +13,18 @@ provider "aws" {
 
 ## Lambda functions 
 locals {
-  function_name = "get-obituaries"
+  function_name = "get-obituaries-30122680"
   get_obituaries_handler_name = "main.lambda_handler"
-  get_obituaries_artifact_name = "get-obituaries-artifact.zip" 
+  get_obituaries_artifact_name = "get-obituaries-30122680-artifact.zip" 
 }
 
 locals {
-  function_name1 = "create-obituary"
+  function_name1 = "create-obituary-30122680"
   create_obituary_handler_name = "main.lambda_handler"
-  create_obituary_artifact_name = "create-obituary-artifact.zip" 
+  create_obituary_artifact_name = "create-obituary-30122680-artifact.zip" 
 }
 
-#Create a role for the get-obituaries lambda function 
+#Create a role for the get-obituaries-30122680 lambda function 
 resource "aws_iam_role" "get_obituaries_lambda" {
   name = "iam-for-lambda-${local.function_name}"
   assume_role_policy = <<EOF
@@ -44,7 +44,7 @@ resource "aws_iam_role" "get_obituaries_lambda" {
 EOF
 }
 
-#Create a role for the create-obituary lambda function 
+#Create a role for the create-obituary-30122680 lambda function 
 resource "aws_iam_role" "create_obituary_lambda" {
   name = "iam-for-lambda-${local.function_name1}"
   assume_role_policy = <<EOF
@@ -64,21 +64,21 @@ resource "aws_iam_role" "create_obituary_lambda" {
 EOF
 }
 
-#create archive file from main.py for get-obituaries
+#create archive file from main.py for get-obituaries-30122680
 data "archive_file" "get_obituaries_lambda" {
   type = "zip"
-  source_file = "../functions/get-obituaries/main.py"
-  output_path = "get-obituaries-artifact.zip"
+  source_file = "../functions/get-obituaries-30122680/main.py"
+  output_path = "get-obituaries-30122680-artifact.zip"
 }
 
-#create archive file from main.py for create-obituary
+#create archive file from main.py for create-obituary-30122680
 data "archive_file" "create_obituary_lambda" {
   type = "zip"
-  source_dir = "../functions/create-obituary"
-  output_path = "create-obituary-artifact.zip"
+  source_dir = "../functions/create-obituary-30122680"
+  output_path = local.create_obituary_artifact_name
 }
 
-# create a Lambda function get-obituaries
+# create a Lambda function get-obituaries-30122680
 # see the docs: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
 resource "aws_lambda_function" "get_obituaries_lambda" {
   role          = aws_iam_role.get_obituaries_lambda.arn
@@ -89,7 +89,7 @@ resource "aws_lambda_function" "get_obituaries_lambda" {
   runtime       = "python3.9"
   }
 
-  # create a Lambda function create-obituary
+  # create a Lambda function create-obituary-30122680
 # see the docs: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
 resource "aws_lambda_function" "create_obituary_lambda" {
   role          = aws_iam_role.create_obituary_lambda.arn
@@ -101,7 +101,7 @@ resource "aws_lambda_function" "create_obituary_lambda" {
   timeout       = 20
   }
 
-# create a policy for publishing logs to CloudWatch for get-obituaries 
+# create a policy for publishing logs to CloudWatch for get-obituaries-30122680 
 resource "aws_iam_policy" "logs_get" {
   name        = "lambda-logging-${local.function_name}"
   description = "IAM policy for logging from a lambda"
@@ -125,7 +125,7 @@ resource "aws_iam_policy" "logs_get" {
 EOF
 }
 
-# create a policy for publishing logs to CloudWatch for create-obituary 
+# create a policy for publishing logs to CloudWatch for create-obituary-30122680 
 resource "aws_iam_policy" "logs_create" {
   name        = "lambda-logging-${local.function_name1}"
   description = "IAM policy for logging from a lambda"
@@ -191,12 +191,12 @@ resource "aws_lambda_function_url" "url_create" {
   }
 }
 
-#Show the function url for get-obituaries 
+#Show the function url for get-obituaries-30122680 
 output "get_obituaries_lambda_url" {
   value = aws_lambda_function_url.url_get.function_url
 }
 
-#Show the function url for create-obituary
+#Show the function url for create-obituary-30122680-30122680
 output "create_obituary_lambda_url" {
   value = aws_lambda_function_url.url_create.function_url
 }
@@ -222,4 +222,3 @@ resource "aws_dynamodb_table" "Obituary-30086612" {
     type = "S"
   }
 }
-
