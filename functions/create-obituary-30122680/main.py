@@ -135,7 +135,7 @@ def lambda_handler(event, context):
     with open(key, "wb") as f:
         f.write(binary_data[0])
 
-    res_img = upload_to_cloudinary(key, resource_type="image", extra_fields={"eager": ["e_art:zorro", "e_grayscale"]})
+    res_img = upload_to_cloudinary(key, resource_type="image", extra_fields={"eager": ["e_art:zorro"]})
     chatgpt_prompt = gpt_response(
         f"write a funny obituary about a fictional character named {name} who was born on {born_year} and died on {died_year}."
     )

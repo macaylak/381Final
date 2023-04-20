@@ -6,6 +6,7 @@ function App() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [obituaries, setObituaries] = useState([]);
   const [selectedObituary, setSelectedObituary] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
   const [selectedObituaries, setSelectedObituaries] = useState([]);
 
@@ -14,8 +15,10 @@ const handlePlayPause = (id) => {
   const audio = document.getElementById(`audio-${id}`);
   if (audio.paused) {
     audio.play();
+    setIsPlaying(true)
   } else {
     audio.pause();
+    setIsPlaying(false)
   }
 };
 
@@ -82,7 +85,7 @@ const handlePlayPause = (id) => {
               <div
                 id="obituary-container"
                 key={obituary.id}
-                onClick={() => handleObituaryClick(obituary.id)}
+                onClick={(e) => handleObituaryClick(obituary.id, e)}
                 className={selectedObituary === obituary.id ? "selected" : ""}
               >
                 <img src={obituary["img_resp"]} alt="profile" style={{ maxWidth: "100%" }} /> <br />
@@ -101,10 +104,10 @@ const handlePlayPause = (id) => {
                     <p>{obituary["chatgpt"]}</p>
                     <br />
                     <div className="audio-player">
-                      <audio className="audio-element" id={`audio-${obituary.id}`}>
+                      <audio className="audio-element" id={`audio-${obituary.id}`} onEnded={()=>setIsPlaying(false)}>
                         <source src={obituary["polly_resp"]} type="audio/mp3" />
                       </audio>
-                      <button className="play-button" onClick={() => handlePlayPause(obituary.id)}>Play/Pause</button>
+                      <button className="play-button" onClick={() => handlePlayPause(obituary.id)}>{isPlaying ? "Pause": "Play"}</button>
                     </div>
                   </div>
                 )}
