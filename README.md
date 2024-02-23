@@ -1,4 +1,4 @@
-![Demo GIF](./381Final.gif)
+![Demo GIF](./demo.gif)
 
 # The Last Show
 
